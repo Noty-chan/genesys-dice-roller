@@ -1,0 +1,22 @@
+.menu {
+    position: absolute;
+    left: 0;
+    top: 0;
+    padding: @padding;
+    background: @dice-area;
+    box-shadow: 0 0 4px rgba(0,0,0,0.5);
+    display: flex;
+    flex-direction: column;
+    gap: @padding;
+    z-index: 10;
+
+    label {
+        display: flex;
+        flex-direction: column;
+        font-size: 0.8rem;
+    }
+    input {
+        margin-top: 0.2rem;
+        font-size: 1rem;
+    }
+}
