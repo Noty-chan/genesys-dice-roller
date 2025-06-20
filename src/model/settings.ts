@@ -6,7 +6,7 @@ type Redux<Payload> = {
     getState(): { value: Payload };
 }
 
-class Settings<Payload> {
+export class Settings<Payload> {
 
     constructor(name: string, initialValue?: Payload) {
 
@@ -85,3 +85,6 @@ class ThemeSettings extends Settings<ThemeOptions> {
 }
 
 export const Theme = new ThemeSettings();
+
+export const Webhook = new Settings<string | null>("webhook", null);
+export const Username = new Settings<string>("username", "");
