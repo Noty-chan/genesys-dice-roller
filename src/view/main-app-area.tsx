@@ -89,7 +89,9 @@ export default class MainAppArea extends React.Component<{}, { dice: AllowedDice
         if (!webhook || !this.resultsRef.current) { return; }
 
         const canvas = await html2canvas(this.resultsRef.current);
-        const blob: Blob = await new Promise(resolve => canvas.toBlob(b => resolve(b!), "image/png"));
+        const blob: Blob = await new Promise(resolve =>
+            canvas.toBlob((b: Blob | null) => resolve(b!), "image/png")
+        );
 
         const form = new FormData();
         form.append("file", blob, "roll.png");
