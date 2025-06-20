@@ -292,7 +292,8 @@ module.exports = require("webpack-merge")({
     entry: ["./styles/main.less", "./src/index.tsx"],
     output: {
         filename: `app${isProduction ? "-[contenthash]" : ""}.js`,
-        path: resolve(__dirname, "dist")
+        path: resolve(__dirname, "dist"),
+        publicPath: isDevServer ? "/" : "/genesys-dice-roller/"
     },
     resolve: {
         /* We add the root of the project as the first module directory
