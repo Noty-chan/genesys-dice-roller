@@ -1,13 +1,10 @@
-@font-face {
-    font-family: "genesys-symbols";
-    font-weight: normal;
-    font-style: normal;
-    src: data-uri("assets/genesys.woff2") format("woff2"),
-         data-uri("assets/genesys.woff") format("woff");
-}
-
 .dice-symbol {
-    font-family: genesys-symbols !important;
-    font-weight: normal !important;
-    font-style: normal !important;
+    display: inline-flex;
+    svg {
+        width: 1em;
+        height: 1em;
+        fill: currentColor;
+        stroke: currentColor;
+        stroke-width: 1;
+    }
 }

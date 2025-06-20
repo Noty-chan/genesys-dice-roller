@@ -4,7 +4,8 @@ import Symbols from "src/model/symbols";
 import { AllowedDice, GenesysDie, AbilityDie, ProficiencyDie, BoostDie, DifficultyDie, ChallengeDie, SetbackDie, PercentileDie } from "src/model/dice";
 import DiceDisplay from "src/view/display/dice";
 
-const diceToCreate: ({ cls: typeof GenesysDie, result: GenesysDie["currentResult"] } | { cls: typeof PercentileDie, result: number })[] = [
+type DieCreator<T extends AllowedDice> = { cls: new () => T, result: T["currentResult"] };
+const diceToCreate: DieCreator<AllowedDice>[] = [
     { cls: AbilityDie,     result: [Symbols.SUCCESS] },
     { cls: ProficiencyDie, result: [Symbols.TRIUMPH] },
     { cls: BoostDie,       result: [Symbols.ADVANTAGE] },
