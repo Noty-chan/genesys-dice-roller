@@ -1,8 +1,14 @@
 import * as React from "react";
-import { difference, startCase } from "lodash-es";
+import { difference } from "lodash-es";
 
 import { AllowedDice, AllowedResults } from "src/model/dice";
 import { AbilityDie, ProficiencyDie, BoostDie, DifficultyDie, ChallengeDie, SetbackDie, PercentileDie } from "src/model/dice";
+import html2canvas from "html2canvas";
+import { Webhook, Username } from "src/model/settings";
+import { removeOpposingSymbols, adjudicateRoll } from "src/util/adjudicate";
+import { orderSymbols } from "src/util/order";
+import Symbols from "src/model/symbols";
+import Result from "src/model/result";
 
 import DiceControls from "src/view/dice-controls";
 import DiceList from "src/view/dice-list";
@@ -14,6 +20,8 @@ const diceTypes: Readonly<diceTypes[]> = Object.freeze(["ability", "proficiency"
 
 export default class MainAppArea extends React.Component<{}, { dice: AllowedDice[], selected: AllowedDice[], results: AllowedResults[] }> {
 
+    resultsRef: React.RefObject<HTMLDivElement> = React.createRef();
+
     constructor(props: {}) {
         super(props);
         this.state = { dice: [], selected: [], results: [] };
@@ -22,6 +30,7 @@ export default class MainAppArea extends React.Component<{}, { dice: AllowedDice
         this.clearDice = this.clearDice.bind(this);
         this.toggleSelection = this.toggleSelection.bind(this);
         this.roll = this.roll.bind(this);
+        this.sendToDiscord = this.sendToDiscord.bind(this);
     }
 
     addDie(newDie: AllowedDice): void {
@@ -75,6 +84,45 @@ export default class MainAppArea extends React.Component<{}, { dice: AllowedDice
         }
     }
 
+    async sendToDiscord() {
+        const webhook = Webhook.get();
+        if (!webhook || !this.resultsRef.current) { return; }
+
+        const canvas = await html2canvas(this.resultsRef.current);
+        const blob: Blob = await new Promise(resolve => canvas.toBlob(b => resolve(b!), "image/png"));
+
+        const form = new FormData();
+        form.append("file", blob, "roll.png");
+        form.append("username", Username.get() || "Genesys Roller");
+        form.append("content", this.summariseResults());
+
+        fetch(webhook, { method: "POST", body: form });
+    }
+
+    summariseResults(): string {
+        const symbols: Symbols[] = [];
+        const numbers: number[] = [];
+        this.state.results.forEach(r => {
+            if (Array.isArray(r)) { symbols.push(...r); } else if (typeof r === "number") { numbers.push(r); }
+        });
+        const flat = removeOpposingSymbols(symbols).sort(orderSymbols);
+        const result = adjudicateRoll(flat);
+        const counts = new Map<Symbols, number>();
+        flat.forEach(s => counts.set(s, (counts.get(s) || 0) + 1));
+        const names: Record<Symbols, string> = {
+            [Symbols.SUCCESS]: "успех",
+            [Symbols.FAILURE]: "неудача",
+            [Symbols.ADVANTAGE]: "преимущество",
+            [Symbols.THREAT]: "угроза",
+            [Symbols.TRIUMPH]: "триумф",
+            [Symbols.DESPAIR]: "отчаяние",
+        } as any;
+        let text = result === Result.SUCCESS ? "Итог: успех" : result === Result.FAILURE ? "Итог: провал" : "Итог:";
+        text += "\n" + Array.from(counts.entries()).map(([sym, count]) => `${names[sym]}: ${count}`).join("\n");
+        if (numbers.length) text += "\nЧисла: " + numbers.join(", ");
+        return text;
+    }
+
     render() {
         return <div className="dice-area">
             <DiceControls callback={this.addDie}/>
@@ -82,8 +130,11 @@ export default class MainAppArea extends React.Component<{}, { dice: AllowedDice
             <div className="actions">
                 <button id="roll" onClick={this.roll}>{this.state.selected.length ? "Re-roll Selected" : "Roll"}</button>
                 <button id="clear" onClick={this.clearDice}>{this.state.selected.length ? "Remove Selected" : "Clear"}</button>
+                {Webhook.get() && this.state.results.length > 0 && <button id="discord" onClick={this.sendToDiscord}>Отправить в Discord</button>}
             </div>
-            <RollResults results={this.state.results} />
+            <div ref={this.resultsRef}>
+                <RollResults results={this.state.results} />
+            </div>
         </div>;
     }
 
