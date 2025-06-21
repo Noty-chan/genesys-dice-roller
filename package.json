@@ -22,6 +22,7 @@
   ],
   "scripts": {
     "build": "webpack --config webpack.config.js",
+    "postbuild": "node postbuild.js",
     "build:prod": "NODE_ENV=\"production\" npm run build",
     "deploy": "npm run build:prod && ./deploy.js",
     "start": "webpack-dev-server --config webpack.config.js",
