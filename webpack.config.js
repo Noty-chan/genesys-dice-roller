@@ -58,6 +58,14 @@ configPartials.push(function() {
                         paths: [resolve(__dirname), resolve(__dirname, "node_modules")]
                     }
                 }]
+                            }, {
+                test: /\.(woff2?|otf)$/,
+                use: [{
+                    loader: "file-loader",
+                    options: {
+                        name: "assets/[name].[ext]"
+                    }
+                }]
             }]
         },
         resolve: {
