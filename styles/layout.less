@@ -1,3 +1,4 @@
+[media pointer="file-service://file-Qx1qwy9tyW7hyDkog2nfcD"]
 @width-min: 360px;
 @width-max: 600px;
 @height-min: 600px;
@@ -40,12 +41,13 @@ html, body {
 
         .logo {
             display: inline-block;
-            width: 2.88em;
             height: 1.2em;
-            margin-right: 1rem;
+            width: 2.88em;
+            margin-right: 0.5rem;
             background: data-uri("assets/logo.png") center/contain no-repeat;
+            background: data-uri("assets/logo.png") center/auto 100% no-repeat;
             text-indent: -9999px;
-            vertical-align: -0.3em; 
+            vertical-align: middle;
         }
     }
 
@@ -60,3 +62,4 @@ html, body {
     > * { flex: 0 0 auto; margin: @padding 0 0; }
     > .dice-list { flex-grow: 1; }
 }
+
