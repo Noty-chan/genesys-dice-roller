@@ -9,6 +9,7 @@ html, body {
     align-items: center;
     justify-content: center;
 }
+
 #app {
     position: relative;
     height: 100%;
@@ -24,25 +25,27 @@ html, body {
     }
 
     > h1 {
-        display: flex;                 
-        align-items: center;          
-        gap: 1.2rem;                  
-        font-family: 'Bebas Neue', genesys-header, Arial, sans-serif;
-        font-size: 3.7rem;             
-        line-height: 1;
-        margin: 4px 0 @padding 0;
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        font-family: genesys-header, 'Bebas Neue', Arial, sans-serif;
+        font-size: 2.6rem;
+        line-height: 1.05;
+        margin: 6px 0 @padding 3.2rem;
 
         @media (min-width: 48rem) {
-            font-size: 4.2rem;
+            font-size: 3.2rem;
         }
 
-        text-align: left;
-        margin-left: 3.2rem;
+        text-align: center;
+        @media (min-width: 24rem) {
+            text-align: left;
+        }
 
         .logo {
             display: block;
-            width: 4.2em;             
-            height: 1.35em;           
+            width: 3.2em;
+            height: 1.4em;
             background: data-uri("assets/logo.png") center/contain no-repeat;
             text-indent: -9999px;
             flex-shrink: 0;
@@ -50,6 +53,25 @@ html, body {
         }
     }
 
-    > * { flex: 0 0 auto; }
-    > .dice-area { flex-grow: 1; }
+    > * {
+        flex: 0 0 auto;
+    }
+
+    > .dice-area {
+        flex-grow: 1;
+    }
+}
+
+.dice-area {
+    display: flex;
+    flex-direction: column;
+
+    > * {
+        flex: 0 0 auto;
+        margin: @padding 0 0;
+    }
+
+    > .dice-list {
+        flex-grow: 1;
+    }
 }
