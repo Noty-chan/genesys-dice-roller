@@ -1,9 +1,9 @@
 import * as React from "react";
-import { Webhook, Username, Theme } from "src/model/settings";
+import { Webhook, Username, Theme, AutoDiscord } from "src/model/settings";
 type MenuProps = { toggleCallback?: (open: boolean) => void };
 
 export default class Menu extends React.PureComponent<MenuProps> {
-    state = { webhook: Webhook.get() || "", username: Username.get() || "", theme: Theme.get() || "" };
+    state = { webhook: Webhook.get() || "", username: Username.get() || "", theme: Theme.get() || "", autoDiscord: AutoDiscord.get() || false };
 
     handleWebhook = (e: React.ChangeEvent<HTMLInputElement>) => {
         const webhook = e.target.value;
@@ -23,13 +23,22 @@ export default class Menu extends React.PureComponent<MenuProps> {
         Theme.set(theme || null);
     };
 
+    handleAutoDiscord = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const auto = e.target.checked;
+        this.setState({ autoDiscord: auto });
+        AutoDiscord.set(auto);
+    };
+
     render() {
         return <div className="menu">
-            <label>Webhook URL
+            <label>Адрес вебхука
                 <input type="url" value={this.state.webhook} onChange={this.handleWebhook}/>
             </label>
             <label>Имя
                 <input type="text" value={this.state.username} onChange={this.handleUsername}/>
+            </label>
+            <label className="checkbox">Автоотправка в Discord
+                <input type="checkbox" checked={this.state.autoDiscord} onChange={this.handleAutoDiscord}/>
             </label>
             <label>Тема
                 <select value={this.state.theme} onChange={this.handleTheme}>
