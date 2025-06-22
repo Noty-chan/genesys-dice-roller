@@ -28,7 +28,7 @@ export default class Menu extends React.PureComponent<MenuProps> {
             WebhookPriority.set(priority);
         }
     };
-    
+
     handlePriority = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const priority = parseInt(e.target.value, 10);
         this.setState({ priority });
@@ -56,11 +56,10 @@ export default class Menu extends React.PureComponent<MenuProps> {
     render() {
         return <div className="menu">
             {this.state.webhooks.map((hook, i) => <label key={i}>Вебхук #{i + 1}
-                <span className="field">
+              <span className="field">
                     <input type="url" value={hook} onChange={e => this.handleWebhook(i, e)} />
                     {this.state.webhooks.length > 1 && <button type="button" className="remove" onClick={() => this.removeWebhookField(i)}>×</button>}
                 </span>
-            </label>)}
             </label>)}
             {this.state.webhooks.length < 5 && <button onClick={this.addWebhookField}>Добавить вебхук</button>}
             {this.state.webhooks.length > 1 && <label>Приоритетный канал
