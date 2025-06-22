@@ -18,6 +18,17 @@ export default class Menu extends React.PureComponent<MenuProps> {
         }
     };
 
+    removeWebhookField = (idx: number) => {
+        if (this.state.webhooks.length > 1) {
+            const webhooks = this.state.webhooks.slice();
+            webhooks.splice(idx, 1);
+            const priority = Math.min(this.state.priority, webhooks.length - 1);
+            this.setState({ webhooks, priority });
+            Webhooks.set(webhooks.filter(w => w));
+            WebhookPriority.set(priority);
+        }
+    };
+    
     handlePriority = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const priority = parseInt(e.target.value, 10);
         this.setState({ priority });
