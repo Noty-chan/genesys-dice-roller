@@ -4,7 +4,7 @@ import { difference } from "lodash-es";
 import { AllowedDice, AllowedResults } from "src/model/dice";
 import { AbilityDie, ProficiencyDie, BoostDie, DifficultyDie, ChallengeDie, SetbackDie, PercentileDie } from "src/model/dice";
 import html2canvas from "html2canvas";
-import { Webhook, Username, AutoDiscord } from "src/model/settings";
+import { getWebhook, Username, AutoDiscord } from "src/model/settings";
 import { removeOpposingSymbols, adjudicateRoll } from "src/util/adjudicate";
 import { orderSymbols } from "src/util/order";
 import Symbols from "src/model/symbols";
@@ -95,7 +95,7 @@ export default class MainAppArea extends React.Component<{}, { dice: AllowedDice
     }
 
     async sendToDiscord() {
-        const webhook = Webhook.get();
+        const webhook = getWebhook();
         if (!webhook || !this.resultsRef.current) { return; }
 
         const canvas = await html2canvas(this.resultsRef.current);
@@ -142,7 +142,7 @@ export default class MainAppArea extends React.Component<{}, { dice: AllowedDice
             <div className="actions">
                 <button id="roll" onClick={this.roll}>{this.state.selected.length ? "Re-roll Selected" : "Roll"}</button>
                 <button id="clear" onClick={this.clearDice}>{this.state.selected.length ? "Remove Selected" : "Clear"}</button>
-                {Webhook.get() && !AutoDiscord.get() && this.state.results.length > 0 &&
+                  {getWebhook() && !AutoDiscord.get() && this.state.results.length > 0 &&
                     <button id="discord" onClick={this.sendToDiscord}>Отправить в Discord</button>}
             </div>
             <div ref={this.resultsRef}>

@@ -1,14 +1,27 @@
 import * as React from "react";
-import { Webhook, Username, Theme, AutoDiscord } from "src/model/settings";
+import { Webhooks, WebhookPriority, Username, Theme, AutoDiscord } from "src/model/settings";
 type MenuProps = { toggleCallback?: (open: boolean) => void };
 
 export default class Menu extends React.PureComponent<MenuProps> {
-    state = { webhook: Webhook.get() || "", username: Username.get() || "", theme: Theme.get() || "", autoDiscord: AutoDiscord.get() || false };
+    state = { webhooks: Webhooks.get().length ? Webhooks.get() : [""], priority: WebhookPriority.get(), username: Username.get() || "", theme: Theme.get() || "", autoDiscord: AutoDiscord.get() || false };
 
-    handleWebhook = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const webhook = e.target.value;
-        this.setState({ webhook });
-        Webhook.set(webhook || null);
+    handleWebhook = (idx: number, e: React.ChangeEvent<HTMLInputElement>) => {
+        const webhooks = this.state.webhooks.slice();
+        webhooks[idx] = e.target.value;
+        this.setState({ webhooks });
+        Webhooks.set(webhooks.filter(w => w));
+    };
+
+    addWebhookField = () => {
+        if (this.state.webhooks.length < 5) {
+            this.setState({ webhooks: this.state.webhooks.concat([""]) });
+        }
+    };
+
+    handlePriority = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const priority = parseInt(e.target.value, 10);
+        this.setState({ priority });
+        WebhookPriority.set(priority);
     };
 
     handleUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,9 +44,15 @@ export default class Menu extends React.PureComponent<MenuProps> {
 
     render() {
         return <div className="menu">
-            <label>Адрес вебхука
-                <input type="url" value={this.state.webhook} onChange={this.handleWebhook}/>
-            </label>
+            {this.state.webhooks.map((hook, i) => <label key={i}>Вебхук #{i + 1}
+                <input type="url" value={hook} onChange={e => this.handleWebhook(i, e)} />
+            </label>)}
+            {this.state.webhooks.length < 5 && <button onClick={this.addWebhookField}>Добавить вебхук</button>}
+            {this.state.webhooks.length > 1 && <label>Приоритетный канал
+                <select value={this.state.priority} onChange={this.handlePriority}>
+                    {this.state.webhooks.map((_, i) => <option value={i} key={"p" + i}>Вебхук #{i + 1}</option>)}
+                </select>
+            </label>}
             <label>Имя
                 <input type="text" value={this.state.username} onChange={this.handleUsername}/>
             </label>
