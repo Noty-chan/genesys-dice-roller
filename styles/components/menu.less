@@ -4,6 +4,8 @@
     top: 0;
     padding: @padding;
     box-shadow: 0 0 4px rgba(0,0,0,0.5);
+    border-radius: 0.5rem;
+    max-width: 18rem;
     display: flex;
     flex-direction: column;
     gap: @padding;
@@ -14,9 +16,11 @@
         flex-direction: column;
         font-size: 0.8rem;
     }
-    input {
+    input, select {
         margin-top: 0.2rem;
         font-size: 1rem;
+        width: 100%;
+        box-sizing: border-box;
     }
 
     label.checkbox {

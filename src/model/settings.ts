@@ -86,6 +86,13 @@ class ThemeSettings extends Settings<ThemeOptions> {
 
 export const Theme = new ThemeSettings();
 
-export const Webhook = new Settings<string | null>("webhook", null);
+export const Webhooks = new Settings<string[]>("webhooks", []);
+export const WebhookPriority = new Settings<number>("webhook_priority", 0);
+
+export function getWebhook(): string | null {
+    const hooks = Webhooks.get();
+    const index = WebhookPriority.get();
+    return hooks[index] || null;
+}
 export const Username = new Settings<string>("username", "");
 export const AutoDiscord = new Settings<boolean>("auto_discord", false);
