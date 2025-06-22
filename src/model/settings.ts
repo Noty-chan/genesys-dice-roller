@@ -88,3 +88,4 @@ export const Theme = new ThemeSettings();
 
 export const Webhook = new Settings<string | null>("webhook", null);
 export const Username = new Settings<string>("username", "");
+export const AutoDiscord = new Settings<boolean>("auto_discord", false);
