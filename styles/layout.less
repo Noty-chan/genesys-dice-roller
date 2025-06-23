@@ -13,7 +13,6 @@ html, body {
     flex-direction: column;
 }
 
-/* ────────── ОСНОВНОЙ КОНТЕЙНЕР ────────── */
 #app {
     flex: 1 1 auto;
     height: 100%;
@@ -21,47 +20,48 @@ html, body {
     flex-direction: column;
     padding: @padding;
 
-    /* кнопка-бургер */
+    /* бургер-иконка */
     > svg.nav-button {
         position: absolute;
-        height: 2rem;
-        margin-top: 0.5rem;
         left: 1rem;
+        top: .8rem;
+        height: 2rem;
     }
 
-    /* ─────── Шапка: логотип + текст ─────── */
+    /* ────── шапка ────── */
     > h1 {
         display: flex;
         align-items: center;
-        gap: 0.55rem;                          /* расстояние между лого и текстом */
+        gap: .55rem;
         font-family: 'Oswald', Arial, sans-serif;
-        font-size: 1.6rem;                     /* крупнее, чем было */
+        font-size: 1.6rem;          /* базовый размер текста заголовка */
         font-weight: 500;
         line-height: 1;
         text-transform: uppercase;
-        margin: 0.6rem 0 0 4.8rem;             /* отступ от меню-иконки */
+        margin: .6rem 0 0 4.8rem;   /* отступ от бургер-иконки */
 
         @media (min-width: 48rem) {
-            font-size: 2rem;                  /* на широких экранах чуть больше */
+            font-size: 2rem;        /* чуть больше на широких экранах */
         }
 
         .logo {
             flex-shrink: 0;
-            width: 137.92px;                  /* точные размеры логотипа */
-            height: 80px;
+            /* 137.92 × 80 px  -->   137.92 / (1.6rem·16) ≈ 5.39em  /  80 / (1.6rem·16) ≈ 3.12em  */
+            width: 5.39em;         /* ≈ 137.9 px при font-size 1.6rem */
+            height: 3.12em;        /* ≈ 80 px   при font-size 1.6rem */
             background: data-uri("assets/logo.png") center/contain no-repeat;
-            text-indent: -9999px;             /* скрытый текст “Genesys” */
-            margin: 0;                        /* без смещений */
+            text-indent: -9999px;
+            margin: 0;
         }
     }
 
     /* тонкий зазор под шапкой */
     .header-gap {
-        height: 0.3rem;
+        height: .3rem;
         flex: 0 0 auto;
     }
 
-    /* ────────── ОБЛАСТЬ КУБОВ ────────── */
+    /* ────── область кубов ────── */
     .dice-area {
         flex: 1 1 auto;
         display: flex;
@@ -76,6 +76,6 @@ html, body {
         display: flex;
         flex: 0 0 auto;
         width: 100%;
-        margin-top: 0.4rem;
+        margin-top: .4rem;
     }
 }
