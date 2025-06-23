@@ -1,4 +1,5 @@
 @import (css) url('https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap');
+
 @width-min: 360px;
 @width-max: 600px;
 @height-min: 600px;
@@ -12,6 +13,7 @@ html, body {
     flex-direction: column;
 }
 
+/* ────────── ОСНОВНОЙ КОНТЕЙНЕР ────────── */
 #app {
     flex: 1 1 auto;
     height: 100%;
@@ -19,58 +21,61 @@ html, body {
     flex-direction: column;
     padding: @padding;
 
+    /* кнопка-бургер */
     > svg.nav-button {
         position: absolute;
         height: 2rem;
-        margin-top: .5rem;
+        margin-top: 0.5rem;
+        left: 1rem;
     }
 
+    /* ─────── Шапка: логотип + текст ─────── */
     > h1 {
         display: flex;
-        align-items: center;      // центрирует логотип и текст по вертикали
-        gap: 0.55rem;
+        align-items: center;
+        gap: 0.55rem;                          /* расстояние между лого и текстом */
         font-family: 'Oswald', Arial, sans-serif;
-        font-size: 1.38rem;       // чуть меньше, чем был
+        font-size: 1.6rem;                     /* крупнее, чем было */
         font-weight: 500;
         line-height: 1;
         text-transform: uppercase;
-        margin: 0.8rem 0 0 1.45rem; // верхний отступ чуть больше, левый ближе к меню
+        margin: 0.6rem 0 0 4.8rem;             /* отступ от меню-иконки */
+
+        @media (min-width: 48rem) {
+            font-size: 2rem;                  /* на широких экранах чуть больше */
+        }
 
         .logo {
             flex-shrink: 0;
-            width: 5.1em;
-            height: 1.7em;
+            width: 137.92px;                  /* точные размеры логотипа */
+            height: 80px;
             background: data-uri("assets/logo.png") center/contain no-repeat;
-            text-indent: -9999px;
-            margin: 0 0.15em 0 0; // чуть-чуть справа
-            // убраны отрицательные маргины, потому что теперь все центруется через flex
+            text-indent: -9999px;             /* скрытый текст “Genesys” */
+            margin: 0;                        /* без смещений */
         }
     }
 
+    /* тонкий зазор под шапкой */
     .header-gap {
-        height: 0.22rem; // минимальный зазор между шапкой и полосой кубов
+        height: 0.3rem;
         flex: 0 0 auto;
     }
 
+    /* ────────── ОБЛАСТЬ КУБОВ ────────── */
     .dice-area {
         flex: 1 1 auto;
         display: flex;
         flex-direction: column;
 
-        > * {
-            flex: 0 0 auto;
-            margin: @padding 0 0;
-        }
-
-        > .dice-list {
-            flex-grow: 1;
-        }
+        > *          { flex: 0 0 auto; margin: @padding 0 0; }
+        > .dice-list { flex-grow: 1; }
     }
 
+    /* нижняя полоса Roll / Clear */
     .roll-bar {
         display: flex;
         flex: 0 0 auto;
         width: 100%;
-        margin-top: .4rem;
+        margin-top: 0.4rem;
     }
 }
