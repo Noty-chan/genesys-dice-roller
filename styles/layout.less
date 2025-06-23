@@ -1,3 +1,5 @@
+@import (css) url('https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap');
+
 @width-min: 360px;
 @width-max: 600px;
 @height-min: 600px;
@@ -20,28 +22,30 @@ html, body {
 
     > svg.nav-button {
         position: absolute;
+        left: 1rem;
+        top: .8rem;
         height: 2rem;
-        margin-top: .5rem;
     }
 
     > h1 {
         display: flex;
         align-items: center;
-        gap: .2rem;
+        gap: .45rem;
         font-family: 'Oswald', Arial, sans-serif;
         font-size: 1.75rem;
+        font-weight: 500;
         line-height: 1;
         text-transform: uppercase;
-        margin: .2rem 0 0 .5rem;
+        margin: .4rem 0 0 5.2rem;   // отступ, чтобы лого не заезжало на кнопку
 
         @media (min-width: 48rem) {
-            font-size: 1.9rem;
+            font-size: 2rem;
         }
 
         .logo {
             flex-shrink: 0;
-            width: 5.5em;
-            height: 2em;
+            width: 5.1em;          // ≈ 137 px при font-size 1.75 rem
+            height: 1.8em;         // ≈ 80 px при font-size 1.75 rem
             background: data-uri("assets/logo.png") center/contain no-repeat;
             text-indent: -9999px;
             margin: 0;
@@ -49,7 +53,7 @@ html, body {
     }
 
     .header-gap {
-        height: .2rem;
+        height: .3rem;
         flex: 0 0 auto;
     }
 
