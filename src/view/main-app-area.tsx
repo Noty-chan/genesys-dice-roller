@@ -98,6 +98,8 @@ export default class MainAppArea extends React.Component<{}, { dice: AllowedDice
         const webhook = getWebhook();
         if (!webhook || !this.resultsRef.current) { return; }
 
+        await new Promise(res => setTimeout(res, 500));
+
         const canvas = await html2canvas(this.resultsRef.current);
         const blob: Blob = await new Promise(resolve =>
             canvas.toBlob((b: Blob | null) => resolve(b!), "image/png")
