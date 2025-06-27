@@ -64,9 +64,15 @@ html, body {
         display: flex;
         flex-direction: column;
 
-        > *          { flex: 0 0 auto; margin: @padding 0 0; }
-        > .dice-list { flex-grow: 1; }
-        .dice-list   { flex-grow: 1; }
+        > *             { flex: 0 0 auto; margin: @padding 0 0; }
+        > .dice-list    { flex-grow: 1; }
+        .dice-list      { flex-grow: 1; }
+        .results-container {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
     }
 
     .roll-bar {
