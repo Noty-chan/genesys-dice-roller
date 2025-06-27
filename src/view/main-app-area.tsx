@@ -118,7 +118,7 @@ export default class MainAppArea extends React.Component<{}, { dice: AllowedDice
             if (Array.isArray(r)) { symbols.push(...r); } else if (typeof r === "number") { numbers.push(r); }
         });
         const flat = removeOpposingSymbols(symbols).sort(orderSymbols);
-        const result = adjudicateRoll(flat);
+        const result = symbols.length ? adjudicateRoll(flat) : Result.NEUTRAL;
         const counts = new Map<Symbols, number>();
         flat.forEach(s => counts.set(s, (counts.get(s) || 0) + 1));
         const names: Record<Symbols, string> = {
@@ -138,15 +138,15 @@ export default class MainAppArea extends React.Component<{}, { dice: AllowedDice
     render() {
         return <div className="dice-area">
             <DiceControls callback={this.addDie}/>
-            <DiceList dice={this.state.dice} selected={this.state.selected} selectCallback={this.toggleSelection} />
+            <div ref={this.resultsRef}>
+                <DiceList dice={this.state.dice} selected={this.state.selected} selectCallback={this.toggleSelection} />
+                <RollResults results={this.state.results} />
+            </div>
             <div className="actions">
                 <button id="roll" onClick={this.roll}>{this.state.selected.length ? "Re-roll Selected" : "Roll"}</button>
                 <button id="clear" onClick={this.clearDice}>{this.state.selected.length ? "Remove Selected" : "Clear"}</button>
                   {getWebhook() && !AutoDiscord.get() && this.state.results.length > 0 &&
                     <button id="discord" onClick={this.sendToDiscord}>Отправить в Discord</button>}
-            </div>
-            <div ref={this.resultsRef}>
-                <RollResults results={this.state.results} />
             </div>
         </div>;
     }
