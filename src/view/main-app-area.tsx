@@ -3,7 +3,7 @@ import { difference } from "lodash-es";
 
 import { AllowedDice, AllowedResults } from "src/model/dice";
 import { AbilityDie, ProficiencyDie, BoostDie, DifficultyDie, ChallengeDie, SetbackDie, PercentileDie } from "src/model/dice";
-import html2canvas from "html2canvas";
+import { toBlob } from "html-to-image";
 import { getWebhook, Username, AutoDiscord } from "src/model/settings";
 import { removeOpposingSymbols, adjudicateRoll } from "src/util/adjudicate";
 import { orderSymbols } from "src/util/order";
@@ -100,10 +100,8 @@ export default class MainAppArea extends React.Component<{}, { dice: AllowedDice
 
         await new Promise(res => setTimeout(res, 500));
 
-        const canvas = await html2canvas(this.resultsRef.current);
-        const blob: Blob = await new Promise(resolve =>
-            canvas.toBlob((b: Blob | null) => resolve(b!), "image/png")
-        );
+        const blob = await toBlob(this.resultsRef.current, { pixelRatio: 2 });
+        if (!blob) { return; }
 
         const form = new FormData();
         form.append("file", blob, "roll.png");
@@ -140,7 +138,7 @@ export default class MainAppArea extends React.Component<{}, { dice: AllowedDice
     render() {
         return <div className="dice-area">
             <DiceControls callback={this.addDie}/>
-            <div ref={this.resultsRef}>
+            <div ref={this.resultsRef} className="results-container">
                 <DiceList dice={this.state.dice} selected={this.state.selected} selectCallback={this.toggleSelection} />
                 <RollResults results={this.state.results} />
             </div>
