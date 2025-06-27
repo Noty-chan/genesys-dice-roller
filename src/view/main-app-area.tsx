@@ -100,7 +100,7 @@ export default class MainAppArea extends React.Component<{}, { dice: AllowedDice
 
         await new Promise(res => setTimeout(res, 500));
 
-        const canvas = await html2canvas(this.resultsRef.current);
+        const canvas = await html2canvas(this.resultsRef.current, { scale: 2 });
         const blob: Blob = await new Promise(resolve =>
             canvas.toBlob((b: Blob | null) => resolve(b!), "image/png")
         );
@@ -140,7 +140,7 @@ export default class MainAppArea extends React.Component<{}, { dice: AllowedDice
     render() {
         return <div className="dice-area">
             <DiceControls callback={this.addDie}/>
-            <div ref={this.resultsRef}>
+            <div ref={this.resultsRef} style={{ width: "100%" }}>
                 <DiceList dice={this.state.dice} selected={this.state.selected} selectCallback={this.toggleSelection} />
                 <RollResults results={this.state.results} />
             </div>
