@@ -87,6 +87,7 @@ class ThemeSettings extends Settings<ThemeOptions> {
 export const Theme = new ThemeSettings();
 
 export const Webhooks = new Settings<string[]>("webhooks", []);
+export const WebhookNames = new Settings<string[]>("webhook_names", []);
 export const WebhookPriority = new Settings<number>("webhook_priority", 0);
 
 export function getWebhook(): string | null {
